@@ -144,14 +144,14 @@ SQL Server Version  |Redistributable Install Link
     In this case, let's use the Azure Active Directory service principal created in Part I to authorize the [!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] instance.  
   
     > [!IMPORTANT]  
-    >  The Azure Active Directory service principal must have at least the `get`, `wrapKey`, and `unwrapKey` permissions for the key vault.  
+    >  The Azure Active Directory service principal must have at least the `list`,`get`, `wrapKey`, and `unwrapKey` permissions for the key vault.  
   
      As shown below, use the **Client ID** from Part I for the `ServicePrincipalName` parameter. The `Set-AzKeyVaultAccessPolicy` runs silently with no output if it runs successfully.  
   
     ```powershell  
     Set-AzKeyVaultAccessPolicy -VaultName 'ContosoDevKeyVault'`  
       -ServicePrincipalName EF5C8E09-4D2A-4A76-9998-D93440D8115D `  
-      -PermissionsToKeys get, wrapKey, unwrapKey  
+      -PermissionsToKeys list, get, wrapKey, unwrapKey  
     ```  
   
      Call the `Get-AzKeyVault` cmdlet to confirm the permissions. In the statement output under 'Access Policies,' you should see your AAD application name listed as another tenant that has access to this key vault.  
@@ -356,3 +356,20 @@ Now that you have completed the basic configuration, see how to [Use SQL Server 
 ## See Also  
  [Extensible Key Management Using Azure Key Vault](../../../relational-databases/security/encryption/extensible-key-management-using-azure-key-vault-sql-server.md)   
 [SQL Server Connector Maintenance & Troubleshooting](../../../relational-databases/security/encryption/sql-server-connector-maintenance-troubleshooting.md)
+## Possible Issues
+If you receive an error message such as below when creating the asymmetric key you may need to add a registry entry:
+The following information was included with the event:
+ 
+Vault Name: EKM Operation
+Operation: SqlCryptGetKeyInfoByName
+Key Name: N/A
+Message: Error when accessing registry:5
+
+To fix this do the following:
+Open regedit
+Navigate to HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft
+Create a new Key called “SQL Server Cryptographic Provider” (without quotes)
+Right click the key, from the context menu select ‘permissions.
+Give Full Control permissions to this key to the Windows service account that runs SQL Server
+
+This behavior occurs in version 15.0.300.96 of the SQL Server Connector for Microsoft Azure Key Vault
