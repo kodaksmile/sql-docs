@@ -87,7 +87,7 @@ SET
 <option_spec> ::=
 {
     <accelerated_database_recovery>
-  | <auto_option>
+  | <auto_option>  
   | <automatic_tuning_option>
   | <change_tracking_option>
   | <containment_option>
@@ -125,7 +125,7 @@ SET
 
 <auto_option> ::=
 {
-    AUTO_CLOSE { ON | OFF }
+    AUTO_CLOSE { ON | OFF }  ##Not supported in SQL MI
   | AUTO_CREATE_STATISTICS { OFF | ON [ ( INCREMENTAL = { ON | OFF } ) ] }
   | AUTO_SHRINK { ON | OFF }
   | AUTO_UPDATE_STATISTICS { ON | OFF }
@@ -172,13 +172,13 @@ SET
     ENCRYPTION { ON | OFF | SUSPEND | RESUME }
 
 <db_state_option> ::=
-    { ONLINE | OFFLINE | EMERGENCY }
+    { ONLINE | OFFLINE | EMERGENCY }  
 
 <db_update_option> ::=
-    { READ_ONLY | READ_WRITE }
+    { READ_ONLY | READ_WRITE }  ##READ_ONLY is not supported in SQL MI
 
 <db_user_access_option> ::=
-    { SINGLE_USER | RESTRICTED_USER | MULTI_USER }
+    { SINGLE_USER | RESTRICTED_USER | MULTI_USER }  ##SINGLE_USER and RESTRICTED_USER are not supported in SQL MI
 
 <delayed_durability_option> ::=
     DELAYED_DURABILITY = { DISABLED | ALLOWED | FORCED }
@@ -197,11 +197,11 @@ SET
 <FILESTREAM_option> ::=
 {
     NON_TRANSACTED_ACCESS = { OFF | READ_ONLY | FULL
-  | DIRECTORY_NAME = <directory_name>
+  | DIRECTORY_NAME = <directory_name>  ## Not supported in SQL MI
 }
 
 <HADR_options> ::=
-    ALTER DATABASE SET HADR
+    ALTER DATABASE SET HADR ##Not supported in SQL MI
 
 <mixed_page_allocation_option> ::=
     MIXED_PAGE_ALLOCATION { OFF | ON }
@@ -244,7 +244,7 @@ SET
 
 <recovery_option> ::=
 {
-    RECOVERY { FULL | BULK_LOGGED | SIMPLE }
+    RECOVERY { FULL | BULK_LOGGED | SIMPLE }  ##RECOVERY SIMPLE and RECOVERY BULK_LOGGED not supported in SQL MI
   | TORN_PAGE_DETECTION { ON | OFF }
   | PAGE_VERIFY { CHECKSUM | TORN_PAGE_DETECTION | NONE }
 }
@@ -269,7 +269,7 @@ SET
   | DISABLE_BROKER
   | NEW_BROKER
   | ERROR_BROKER_CONVERSATIONS
-  | HONOR_BROKER_PRIORITY { ON | OFF}
+  | HONOR_BROKER_PRIORITY { ON | OFF}  
 }
 
 <snapshot_option> ::=
